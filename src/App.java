@@ -26,10 +26,6 @@ public class App extends PApplet {
         Ball.move();
         makeBlocks(blocks);
         collide();
-        for(block i: blocks) {
-            color = i.colorChange(i.getHealth());
-            i.display(color);
-        }
         paddle();
 
     }
@@ -41,13 +37,16 @@ public class App extends PApplet {
                 temp2.add(temp);
             }
         }
+        for(block i: temp2) {
+            color = i.colorChange(i.getHealth());
+            i.display(color);
+        }
     }
 
     public void collide() {
         for (int j = 0; j < blocks.size(); j++) {
             block i = blocks.get(j);
              if (Ball.Xpos() >= i.getX() && Ball.Xpos() <= (i.getX() + 60) && Ball.Ypos() <= i.getY() && Ball.Ypos() >= (i.getY() - 60)) {
-                System.out.println(i.getHealth());
                 blockCollides(i);
                 i.display(color);
             }

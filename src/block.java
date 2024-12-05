@@ -5,15 +5,12 @@ public class block {
     private int y;
     private PApplet c;
     private int health;
-    private int powerUp;
     private int color;
-    private int initialHealth;
     public block(int xPos, int yPos, PApplet p, int level) {
         x = xPos;
         y = yPos;
         c = p;
-        initialHealth = level*3;
-        health = 3;
+        health = level*3;
     }
     public int colorChange(int health) {
         if(health == 3) {

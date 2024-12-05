@@ -45,7 +45,18 @@ public class ball {
         a.circle(ballX, ballY, 20);
         ballX += ballDirectionX * speedX;
         ballY += ballDirectionY * speedY;
-        bounce(0, a.width, 0, a.height);
+        if (ballX + 10 > 800 || ballX - 10 < 0) {
+            int placeHolder = speedX;
+            speedX = speedY;
+            speedY = placeHolder;
+            ballDirectionX = ballDirectionX * -1;
+        }
+        if (ballY + 10 > 600 || ballY - 10 < 0) {
+            int placeHolder = speedX;
+            speedX = speedY;
+            speedY = placeHolder;
+            ballDirectionY = ballDirectionY * -1;
+        }
     }
     public int Xpos() {
         return ballX;
@@ -54,13 +65,13 @@ public class ball {
         return ballY;
     }
     public void bounce(int objXPos, int objWidth, int objYPos, int objHeight) {
-        if (ballX + 10 > objXPos && ballX - 10 < objXPos + objWidth) {
+        if(ballY + 10 > objYPos && ballY - 10 < objYPos + objHeight && ballX - 10 > objXPos && ballX + 10 < objXPos + objWidth) {
             int placeHolder = speedX;
             speedX = speedY;
             speedY = placeHolder;
-            ballDirectionX = ballDirectionX * -1;
+            ballDirectionY = ballDirectionY * -1;
         }
-        if (ballY + 10 > objYPos && ballY - 10 < objXPos + objHeight) {
+        if(ballY - 10 > objYPos && ballY + 10 < objYPos + objHeight && ballX - 10 > objXPos && ballX + 10 < objXPos + objWidth) {
             int placeHolder = speedX;
             speedX = speedY;
             speedY = placeHolder;
