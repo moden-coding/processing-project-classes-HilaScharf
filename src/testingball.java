@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import processing.core.PApplet;
 
-public class ball {
+public class testingball {
     private int ballX;
     private int ballY;
     private int damage;
@@ -13,7 +13,7 @@ public class ball {
     private int ballDirection;
     private int ballDirectionX;
     private int ballDirectionY;
-    public ball(int x, int y, int ballDamage, PApplet c) {
+    public testingball(int x, int y, int ballDamage, PApplet c) {
         ballX = x;
         ballY = y;
         damage = ballDamage;
@@ -43,19 +43,13 @@ public class ball {
     public void move() {
         a.fill(ballColor(damage));
         a.circle(ballX, ballY, 20);
-        ballX += ballDirectionX * speedX;
-        ballY += ballDirectionY * speedY;
+        ballX = a.mouseX;
+        ballY = a.mouseY;
         if (ballX + 10 > 800 || ballX - 10 < 0) {
-            int placeHolder = speedX;
-            speedX = speedY;
-            speedY = placeHolder;
-            ballDirectionX = ballDirectionX * -1;
+            System.out.println("ive hit the left or right wall");
         }
         if (ballY + 10 > 600 || ballY - 10 < 0) {
-            int placeHolder = speedX;
-            speedX = speedY;
-            speedY = placeHolder;
-            ballDirectionY = ballDirectionY * -1;
+            System.out.println("ive hit the top or bottom wall");
         }
     }
     public int Xpos() {
@@ -72,31 +66,19 @@ public class ball {
         int objBottom = objYPos + objHeight;
         int objLeftSide = objXPos + objWidth;
         //bounce off top of object
-        if(ballBottom > objYPos && ballBottom < objBottom && ballRight > objXPos && ballLeft < objLeftSide) {
-            int placeHolder = speedX;
-            speedX = speedY;
-            speedY = placeHolder;
-            ballDirectionY = ballDirectionY * -1;
-        }
+        /*if(ballBottom > objYPos && ballBottom < objBottom && ballRight > objXPos && ballLeft < objLeftSide) {
+            System.out.println("ive hit the top of the object");
+        }*/
         //bounce off left of object
         if(ballTop > objYPos && ballBottom < objBottom && ballRight > objXPos && ballRight < objLeftSide) {
-            int placeHolder = speedX;
-            speedX = speedY;
-            speedY = placeHolder;
-            ballDirectionX = ballDirectionX * -1;
+            System.out.println("ive hit the left side of the object");
         }
         //bounce off bottom of object
-        if(ballRight > objXPos && ballLeft < objLeftSide && ballTop < objBottom && ballTop > objYPos) {
-            int placeHolder = speedX;
-            speedX = speedY;
-            speedY = placeHolder;
-            ballDirectionY = ballDirectionY * -1;
-        }
-        /*if(ballRight < objXPos && ballLeft > objLeftSide && ballBottom < objBottom && ballTop > objYPos) {
-            int placeHolder = speedX;
-            speedX = speedY;
-            speedY = placeHolder;
-            ballDirectionX = ballDirectionX * -1;
+       /*  if(ballRight > objXPos && ballLeft < objLeftSide && ballTop < objBottom && ballTop > objYPos) {
+            System.out.println("ive hit the bottom side of the object");
         }*/
+        if(ballRight < objXPos && ballLeft > objLeftSide && ballBottom < objBottom && ballTop > objYPos) {
+            System.out.println("ive hit the right side of the object");
+        }
     }
 }

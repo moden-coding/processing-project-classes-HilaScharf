@@ -5,7 +5,7 @@ import processing.core.*;
 public class App extends PApplet {
     ArrayList<block> blocks = new ArrayList<>();
     int damage = 10;
-    ball Ball = new ball(300, 400, damage, this);
+    testingball Ball = new testingball(300, 400, damage, this);
     int color = 0;
 
     public static void main(String[] args) {
@@ -24,8 +24,8 @@ public class App extends PApplet {
     public void draw() {
         background(0);
         Ball.move();
-        makeBlocks(blocks);
         collide();
+        makeBlocks(blocks);
         paddle();
 
     }
@@ -37,34 +37,32 @@ public class App extends PApplet {
                 temp2.add(temp);
             }
         }
-        for(block i: temp2) {
-            color = i.colorChange(i.getHealth());
-            i.display(color);
+
+        for (block i : temp2) {
+            i.display();
         }
     }
 
     public void collide() {
         for (int j = 0; j < blocks.size(); j++) {
             block i = blocks.get(j);
-             if (Ball.Xpos() >= i.getX() && Ball.Xpos() <= (i.getX() + 60) && Ball.Ypos() <= i.getY() && Ball.Ypos() >= (i.getY() - 60)) {
-                blockCollides(i);
-                i.display(color);
-            }
+            Ball.bounce(i.getX(), 30, i.getY(), 20);
+            blockCollides(i);
         }
 
     }
 
     public void blockCollides(block i) {
-            i.blockHasBeenHit();
-            i.colorChange(i.getHealth());
-            if (i.blockDies() == true) {
-                blocks.remove(i);
-            }
-            color = i.colorChange(i.getHealth());
+        i.blockHasBeenHit();
+        //i.colorChange();
+        if (i.blockDies() == true) {
+            blocks.remove(i);
         }
-        public void paddle() {
-            fill(250);
-            rect(mouseX, 440, 100, 20);
-            Ball.bounce(mouseX, 100, 440, 20);
-        }
+    }
+
+    public void paddle() {
+        fill(250);
+        rect(300, 440, 100, 20);
+        Ball.bounce(300, 100, 440, 20);
+    }
 }

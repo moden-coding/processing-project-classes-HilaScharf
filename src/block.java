@@ -12,7 +12,7 @@ public class block {
         c = p;
         health = level*3;
     }
-    public int colorChange(int health) {
+    private int colorChange() {
         if(health == 3) {
             color = c.color(2, 224, 50);
         } else if(health == 2) {
@@ -23,8 +23,8 @@ public class block {
         return color;
 
     }
-    public void display(int blockColor) {
-        c.fill(color);
+    public void display() {
+        c.fill(colorChange());
         c.rect(x, y, 30, 20);
     }
     public int getX() {
@@ -35,6 +35,13 @@ public class block {
     }
     public void blockHasBeenHit() {
         health -= 1;
+        if(health == 3) {
+            color = c.color(2, 224, 50);
+        } else if(health == 2) {
+            color = c.color(246, 250, 10);
+        } else if(health == 1) {
+            color = c.color(255, 3, 3);
+        }
     }
     public boolean blockDies() {
         if(health >= 1) {
