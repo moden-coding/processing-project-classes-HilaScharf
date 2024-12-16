@@ -3,10 +3,9 @@ import java.util.ArrayList;
 import processing.core.*;
 
 public class App extends PApplet {
-    ArrayList<block> blocks = new ArrayList<>();
-    int damage = 10;
-    testingball Ball = new testingball(300, 400, damage, this);
-    int color = 0;
+    ArrayList<Blocks> blocks = new ArrayList<Blocks>();
+    Balls ball = new Balls(200, 300, this, 1);
+    Blocks block = new Blocks(5, 5, 1, this);
 
     public static void main(String[] args) {
         PApplet.main("App");
@@ -14,7 +13,12 @@ public class App extends PApplet {
 
     public void setup() {
         background(0);
-
+        for (int y = 5; y < 100; y += 25) {
+            for (int x = 0; x <= 770; x += 35) {
+                Blocks temp = new Blocks(x, y, 1, this);
+                blocks.add(temp);
+            }
+        }
     }
 
     public void settings() {
@@ -23,46 +27,38 @@ public class App extends PApplet {
 
     public void draw() {
         background(0);
-        Ball.move();
-        collide();
-        makeBlocks(blocks);
-        paddle();
+        ball.make();
+        //paddle();
+        
+        
+        int x = 0;
+        while (x < blocks.size()) {
+            blocks.get(x).fill();
+            blocks.get(x).display();
+            if (ball.touching(blocks.get(x).getY(), blocks.get(x).getY() + 20, blocks.get(x).getX() + 30, blocks.get(x).getX())) {
+                ball.bounce(blocks.get(x).getY(), blocks.get(x).getY() + 20, blocks.get(x).getX() + 30, blocks.get(x).getX());
+                blocks.get(x).blockHasBeenHit(1);
+                if(blocks.get(x).blockDies()) {
+                    blocks.remove(x);
+                }
+            }
+            x++;
 
+        }
     }
 
-    public void makeBlocks(ArrayList<block> temp2) {
+    public void makeBlocks() {
         for (int y = 5; y < 100; y += 25) {
             for (int x = 0; x <= 770; x += 35) {
-                block temp = new block(x, y, this, 1);
-                temp2.add(temp);
+                Blocks temp = new Blocks(x, y, 1, this);
+                temp.display();
+                blocks.add(temp);
             }
         }
-
-        for (block i : temp2) {
-            i.display();
-        }
     }
-
-    public void collide() {
-        for (int j = 0; j < blocks.size(); j++) {
-            block i = blocks.get(j);
-            Ball.bounce(i.getX(), 30, i.getY(), 20);
-            blockCollides(i);
-        }
-
-    }
-
-    public void blockCollides(block i) {
-        i.blockHasBeenHit();
-        //i.colorChange();
-        if (i.blockDies() == true) {
-            blocks.remove(i);
-        }
-    }
-
     public void paddle() {
         fill(250);
-        rect(300, 440, 100, 20);
-        Ball.bounce(300, 100, 440, 20);
+        rect(mouseX, 440, 100, 20);
+        ball.bounce(440, 460, mouseX + 100, mouseX);
     }
 }
