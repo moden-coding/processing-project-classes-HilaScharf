@@ -22,6 +22,9 @@ public class Blocks {
     }
     public void display() {
         a.rect(blockX, blockY, 30, 20);
+        a.fill(0);
+        a.textSize(15);
+        a.text(health, blockX + 12, blockY + 15);
     }
     public int getX() {
         return blockX;

@@ -9,6 +9,7 @@ public class Balls {
     private int directionY;
     private int speedX;
     private int speedY;
+    private boolean lose;
 
     public Balls(int X, int Y, PApplet c, int strength) {
         boxX = X;
@@ -17,8 +18,9 @@ public class Balls {
         damage = strength;
         directionX = 1;
         directionY = -1;
-        speedX = (int) a.random(2, 7);
-        speedY = (int) a.random(2, 7);
+        speedX = (int)a.random(2, 7);
+        speedY = (int)a.random(2, 7);
+        lose = false;
     }
 
     private int ballColor() {
@@ -32,17 +34,26 @@ public class Balls {
     public void make() {
         a.fill(ballColor());
         a.rect(boxX, boxY, 20, 20);
-        move();
     }
 
-    private void move() {
+    public void move() {
         boxX += speedX * directionX;
         boxY += speedY * directionY;
         if (boxX + 20 >= a.width || boxX <= 0) {
             directionX = directionX * -1;
         }
-        if (boxY + 20 >= a.height || boxY <= 0) {
+        if (boxY + 20 >= a.height) {
+            lose = true;
+        } 
+        if(boxY <= 0) {
             directionY = directionY * -1;
+        }
+    }
+    public boolean lose() {
+        if(lose == true) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -62,18 +73,30 @@ public class Balls {
 
     // bounce off blocks
     public void bounce(int blockTop, int blockBottom, int blockRight, int blockLeft) {
-        if (boxY < blockBottom && boxY > blockTop && boxX + 100 > blockLeft && boxX < blockRight
-                || boxY + 100 > blockTop && boxY < blockTop && boxX + 100 > blockLeft && boxX < blockRight) {
+        //bounce off bottom
+        if (boxY < blockBottom && boxY > blockTop && boxX + 20 > blockLeft && boxX < blockRight) {
             directionY = directionY * -1;
+            boxY += 10;
             speedX = (int) a.random(2, 7);
             speedY = (int) a.random(2, 7);
         }
+        //bounce off top
+        if(boxY + 20 > blockTop && boxY < blockTop && boxX + 20 > blockLeft && boxX < blockRight) {
+            directionY = directionY * -1;
+            boxY -= 10;
+            speedX = (int) a.random(2, 7);
+            speedY = (int) a.random(2, 7);
+        }
+        //bounce off left
         if (boxY > blockTop && boxY + 20 < blockBottom && boxX + 20 > blockLeft && boxX < blockLeft) {
+            boxX -= 10;
             directionX = directionX * -1;
             speedX = (int) a.random(2, 7);
             speedY = (int) a.random(2, 7);
         }
+        //bounce off right
         if (boxY > blockTop && boxY + 20 < blockBottom && boxX < blockRight && boxX + 20 > blockRight) {
+            boxX += 10;
             directionX = directionX * -1;
             speedX = (int) a.random(2, 7);
             speedY = (int) a.random(2, 7);
