@@ -10,10 +10,14 @@ public class Balls {
     private int speedX;
     private int speedY;
     private boolean lose;
+    private int initialX;
+    private int initialY;
 
     public Balls(int X, int Y, PApplet c, int strength) {
         boxX = X;
         boxY = Y;
+        initialX = X;
+        initialY = Y;
         a = c;
         damage = strength;
         directionX = 1;
@@ -102,7 +106,6 @@ public class Balls {
             speedY = (int) a.random(2, 7);
         }
     }
-
     public int damage() {
         return damage;
     }
@@ -113,5 +116,14 @@ public class Balls {
 
     public int y() {
         return boxY;
+    }
+    public void reset() {
+        boxX = initialX;
+        boxY = initialY;
+        directionX = 1;
+        directionY = -1;
+        speedX = (int)a.random(2, 7);
+        speedY = (int)a.random(2, 7);
+        lose = false;
     }
 }
